@@ -40,7 +40,7 @@ To generate the data, run:
 ### Run the experiments
 The `run_experiments.py` script takes several arguments: 
 - `-mode`: which model to run (either `ada`, `babbage`, `curie`, or `davinci`. Default is `davinci`)
-- `path_to_data`: path to data generated with the `generate_data.py` script.
+- `-path_to_data`: path to data generated with the `generate_data.py` script.
 
 To run the experiments with `davinci`, run:
 
