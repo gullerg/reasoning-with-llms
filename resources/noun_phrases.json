@@ -1,0 +1,26 @@
+{
+    "people": [
+        "the famous scientist",
+        "the famous football player",
+        "Bob Johson", 
+        "Alice Eriksen",
+        "the famous actor and director",
+        "the President of the United States",
+        "James",
+        "a person",
+        "a worker",
+        "an artist",
+        "a business person"
+    ],
+    "objects": [
+        "a book",
+        "the painting",
+        "a nice football",
+        "a pencil",
+        "the guitar",
+        "the camera",
+        "a blanket",
+        "the vase", 
+        "Bob's piano"
+    ]
+}

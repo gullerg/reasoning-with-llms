@@ -1,0 +1,95 @@
+{
+    "logic": [
+        {
+            "premise": "If both X and Z then it's not the case that Y.",
+            "conclusion": "If Y then either it's not the case that X or it's not the case that Z.",
+            "valid": true
+        },
+        {
+            "premise": "If either Y or X then it's not the case that Z.",
+            "conclusion": "If Z then both it's not the case that Y and it's not the case that X.",
+            "valid": true
+        },
+        {
+            "premise": "If it's not the case that Y then both Z and X.",
+            "conclusion": "If either it's not the case that Z or it's not the case that X then Y.",
+            "valid": true
+        },
+        {
+            "premise": "If it's not the case that Y then either X or Z.",
+            "conclusion": "If both it's not the case that X and it's not the case that Z then Y.",
+            "valid": true
+        },
+        {
+            "premise": "If either Y or Z then it's not the case that X.",
+            "conclusion": "If X then both Y and Z.",
+            "valid": false
+        },
+        {
+            "premise": "If it's not the case that either Z or Y then X.",
+            "conclusion": "If it's not the case that X then both Z and Y.",
+            "valid": false
+        },
+        {
+            "premise": "If X then both Y and Z.",
+            "conclusion": "If it's not the case that either Y or Z then X.",
+            "valid": false
+        },
+        {
+            "premise": "If it's not the case that Y then either it's not the case that X or it's not the case that Z.",
+            "conclusion": "If it's not the case that both X and Z then Y.",
+            "valid": false
+        }
+    ],
+    "linguistic": [
+        {
+            "premise": "It was X that Y saw Z take.",
+            "conclusion": "Z was seen by Y taking X.",
+            "valid": true,
+            "object": "object"
+        },
+        {
+            "premise": "It was \"X\" that Y thought Z said.",
+            "conclusion": "Z was thought by Y to have said \"X\".",
+            "valid": true,
+            "object": "statement"
+        },
+        {
+            "premise": "What Y gave Z was X.",
+            "conclusion": "It was X that was given to Z by Y.",
+            "valid": true,
+            "object": "object"
+        },
+        {
+            "premise": "What Z told Y was \"X\".",
+            "conclusion": "It was to Y that Z told X.",
+            "valid": true,
+            "object": "statement"
+        },
+        {
+            "premise": "It was \"X\" that Z thought Y said.",
+            "conclusion": "Z was thought by \"X\" to have said Y.",
+            "valid": false,
+            "object": "statement"
+        },
+        {
+            "premise": "What Y gave Z was X.",
+            "conclusion": "It was Z that was given to Y by X.",
+            "valid": false,
+            "object": "object"
+        },
+        {
+            "premise": "What Z told Y was \"X\".",
+            "conclusion": "It was to \"X\" that Z told Y.",
+            "valid": false,
+            "object": "statement"
+        },
+        {
+            "premise": "It was X that Z saw Y take.",
+            "conclusion": "Y was seen by X taking Z.",
+            "valid": false,
+            "object": "object"
+        }
+
+    ]
+}
