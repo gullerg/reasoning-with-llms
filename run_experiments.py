@@ -35,7 +35,7 @@ def get_prompt(sample):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "-mode", help="Determines which models to test. Either 'all', 'ada', 'curie', or 'davinci", default='ada', type=validate_mode)
+        "-mode", help="Determines which models to test. Either 'all', 'ada', 'curie', or 'davinci", default='davinci', type=validate_mode)
     parser.add_argument(
         "-path_to_data", help="The relative path to the file containing the experiment data")
     args = parser.parse_args()

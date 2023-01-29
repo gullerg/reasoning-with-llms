@@ -30,7 +30,8 @@ noun_phrases = json.load(noun_phrases_file)
 #TODO: add a check to ensure that all samples are unique
 
 while len(samples_logic) < n_samples:
-    proposition_type = "normal" if random.random() < 0.5 else "nonce"
+    #proposition_type = "normal" if random.random() < 0.5 else "nonce"
+    proposition_type = "normal"
 
     template = random.sample(argument_templates_logic, 1)[0]
     argument_propositions = random.sample(propositions[proposition_type], 3)
@@ -74,3 +75,9 @@ output_path = os.path.join(data_directory, data_file_name)
 
 with open(output_path, "w") as outfile:
     outfile.write(json.dumps(samples))
+
+print("-------")
+print("Data generated")
+print("-------")
+print("To run experiments, execute:")
+print("python run_experiments.py -path_to_data {0}".format(output_path))
