@@ -2,82 +2,90 @@ import json
 import os
 import random
 from datetime import datetime
+import argparse
+
+from helpers import get_samples
 
 random.seed(10)
 
-resources_directory = "./resources"
-data_directory = "./data"
-if not os.path.exists(data_directory):
-    os.makedirs(data_directory)
 
-samples_logic = []
-samples_linguistic = []
+def validate_mode(mode):
+    if mode not in ['all', 'normal', 'nonce', 'random']:
+        raise argparse.ArgumentTypeError(
+            "%s is an invalid value, must be in ['all', 'normal', 'nonce', 'random']" % mode)
+    return mode
 
-n_samples = 100
 
-argument_templates_file = open(os.path.join(resources_directory, "argument_templates.json"))
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-mode", help="Determines what data to generate. Either 'all', 'normal', 'nonce', or 'random'", default='all', type=validate_mode)
+    args = parser.parse_args()
 
-argument_templates = json.load(argument_templates_file)
-argument_templates_logic = argument_templates["logic"]
-argument_templates_linguistic = argument_templates["linguistic"]
+    mode = args.mode
 
-propositions_file = open(os.path.join(resources_directory, "propositions.json"))
-propositions = json.load(propositions_file)
+    data_directory = "./data"
+    if not os.path.exists(data_directory):
+        os.makedirs(data_directory)
 
-noun_phrases_file = open(os.path.join(resources_directory, "noun_phrases.json"))
-noun_phrases = json.load(noun_phrases_file)
+    current_data_directory = os.path.join(
+        data_directory, "run_{0}".format(datetime.timestamp(datetime.now())))
+    if not os.path.exists(current_data_directory):
+        os.makedirs(current_data_directory)
 
-#TODO: add a check to ensure that all samples are unique
+    n_samples = 100
 
-while len(samples_logic) < n_samples:
-    #proposition_type = "normal" if random.random() < 0.5 else "nonce"
-    proposition_type = "normal"
+    tasks = ["logic", "linguistic"]
+    data_types = ["normal", "nonce", "random"]
 
-    template = random.sample(argument_templates_logic, 1)[0]
-    argument_propositions = random.sample(propositions[proposition_type], 3)
+    if mode == "all":
+        for task in tasks:
+            for data_type in data_types:
+                samples = get_samples(
+                    task=task, data_type=data_type, n_samples=n_samples)
 
-    X = argument_propositions[0]
-    Y = argument_propositions[1]
-    Z = argument_propositions[2]
+                data_file_content = {
+                    "meta_data": {
+                        "task": task,
+                        "type": data_type
+                    },
+                    "data": samples
+                }
 
-    sample = {}
-    sample["type"] = "logic"
-    sample["premise"] = template["premise"].replace("X", X).replace("Y", Y).replace("Z", Z)
-    sample["conclusion"] = template["conclusion"].replace("X", X).replace("Y", Y).replace("Z", Z)
-    sample["valid"] = template["valid"]
+                data_file_name = "data_{0}_{1}_{2}.json".format(
+                    task, data_type, datetime.timestamp(datetime.now()))
+                output_path = os.path.join(
+                    current_data_directory, data_file_name)
 
-    samples_logic.append(sample)
+                with open(output_path, "w") as outfile:
+                    outfile.write(json.dumps(data_file_content))
 
-while len(samples_linguistic) < n_samples:
-    template = random.sample(argument_templates_linguistic, 1)[0]
+    else:
+        for task in tasks:
+            samples = get_samples(
+                task=task, data_type=mode, n_samples=n_samples)
 
-    #X will always either be an object or a statement
-    X = random.sample(propositions["normal"], 1)[0] if template["object"] == "statement" else random.sample(noun_phrases["objects"], 1)[0]
+            data_file_content = {
+                "meta_data": {
+                    "task": task,
+                    "type": mode
+                },
+                "data": samples
+            }
 
-    #Y and Z will always be people
-    people = random.sample(noun_phrases["people"], 2)
-    
-    Y = people[0]
-    Z = people[1]
+            data_file_name = "data_{0}_{1}_{2}.json".format(
+                task, mode, datetime.timestamp(datetime.now()))
+            output_path = os.path.join(current_data_directory, data_file_name)
 
-    sample = {}
-    sample["type"] = "linguistic"
-    sample["premise"] = template["premise"].replace("X", X).replace("Y", Y).replace("Z", Z)
-    sample["conclusion"] = template["conclusion"].replace("X", X).replace("Y", Y).replace("Z", Z)
-    sample["valid"] = template["valid"]
+            with open(output_path, "w") as outfile:
+                outfile.write(json.dumps(data_file_content))
 
-    samples_linguistic.append(sample)
+    print("-------")
+    print("Data generated")
+    print("-------")
+    print("To run experiments, execute:")
+    print("python run_experiments.py -path_to_data_dir {0}".format(current_data_directory))
 
-samples = samples_logic + samples_linguistic
 
-data_file_name = "data_{0}.json".format(datetime.timestamp(datetime.now()))
-output_path = os.path.join(data_directory, data_file_name)
-
-with open(output_path, "w") as outfile:
-    outfile.write(json.dumps(samples))
-
-print("-------")
-print("Data generated")
-print("-------")
-print("To run experiments, execute:")
-print("python run_experiments.py -path_to_data {0}".format(output_path))
+if __name__ == "__main__":
+    main()

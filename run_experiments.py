@@ -1,58 +1,56 @@
 import argparse
 import json
 import os
-import openai
-
-openai.api_key = os.getenv("OPENAI_API_KEY")
+from datetime import datetime
+from helpers import test_model
 
 models = {
-    "ada": "text-ada-001",
-    "babbage": "text-babbage-001",
-    "curie": "text-curie-001",
-    "davinci": "text-davinci-003"
+    "1": "text-davinci-001",
+    "2": "text-davinci-002",
+    "3": "text-davinci-003"
 }
 
 
 def validate_mode(mode):
-    if mode not in ['ada', 'babbage', 'curie', 'davinci']:
+    if mode not in ['all', '1', '2', '3']:
         raise argparse.ArgumentTypeError(
-            "%s is an invalid value, must be in ['all', 'ada', 'babbage', 'curie', 'davinci']" % mode)
+            "%s is an invalid value, must be in ['all', '1', '2', '3']" % mode)
     return mode
-
-
-def get_prompt(sample):
-    return (
-        "You are a large language model tasked to determine whether certain conclusions can be inferred from certain premises. " +
-        "You will b presented with a premise and a conclusion, and you will have to determine whether the conclusion can be inferred from the premise. " +
-        "If the conclusion can be inferred from the premise, reply with 'yes'; otherwise, reply with 'no'. If you don't know, reply with 'cannot be decided'. " +
-        "You're only allowed to reply with 'yes', 'no', or 'cannot be decided'. \n" +
-        "Premise:\n{0}\n".format(sample["premise"]) +
-        "Conclusion:\n{0}\n".format(sample["conclusion"]) +
-        "Conclusion can be inferred from premise:"
-    )
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "-mode", help="Determines which models to test. Either 'all', 'ada', 'curie', or 'davinci", default='davinci', type=validate_mode)
+        "-mode", help="Determines which models to test. Either 'all', '1', '2', or '3", default='3', type=validate_mode)
     parser.add_argument(
-        "-path_to_data", help="The relative path to the file containing the experiment data")
+        "-path_to_data_dir", help="The relative path to the directory containing the experiment data")
     args = parser.parse_args()
 
     mode = args.mode
-    path_to_data = args.path_to_data
+    path_to_data_dir = args.path_to_data_dir
 
-    data_file = open(path_to_data)
-    data = json.load(data_file)
+    results = []
 
-    for sample in data:
-        completion = openai.Completion.create(
-            model=models[mode],
-            prompt=get_prompt(sample),
-            max_tokens=4
-        )
-        print(completion.choices[0].text.strip(), sample["valid"], sample["type"])
+    if mode == "all":
+        for model in models.values():
+            for filename in os.scandir(path_to_data_dir):
+                if filename.is_file():
+                    result = test_model(filename.path, model)
+                    results.append(result)
+    else:
+        for filename in os.scandir(path_to_data_dir):
+            if filename.is_file():
+                result = test_model(filename.path, models[mode])
+                results.append(result)
+
+
+    output_dir = os.path.join(path_to_data_dir, "results")
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+        
+    output_path = os.path.join(output_dir, "results_{0}.json".format(datetime.timestamp(datetime.now())))
+    with open(output_path, "w") as outfile:
+        outfile.write(json.dumps(results))
 
 
 if __name__ == "__main__":

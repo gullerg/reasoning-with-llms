@@ -1,26 +1,85 @@
 {
-    "people": [
-        "the famous scientist",
-        "the famous football player",
-        "Bob Johson", 
-        "Alice Eriksen",
-        "the famous actor and director",
-        "the President of the United States",
-        "James",
-        "a person",
-        "a worker",
-        "an artist",
-        "a business person"
-    ],
-    "objects": [
-        "a book",
-        "the painting",
-        "a nice football",
-        "a pencil",
-        "the guitar",
-        "the camera",
-        "a blanket",
-        "the vase", 
-        "Bob's piano"
-    ]
+    "people": {
+        "normal": [
+            "the famous scientist",
+            "some famous football player",
+            "Bob Johson",
+            "Alice Eriksen",
+            "a famous actor and director",
+            "the President of the United States",
+            "James",
+            "a person",
+            "every worker",
+            "an artist",
+            "a business person"
+        ],
+        "nonce": [
+            "the flibbertigibbetty",
+            "the skedaddlewumpster",
+            "a snollygoster",
+            "a blatherskiter",
+            "the whippersnapper",
+            "some fiddlefaddler",
+            "the flummoxadoodler",
+            "a snickerdoodler",
+            "every blabberwocker",
+            "a whifflewhumper",
+            "the skedaddlewoozler"
+        ],
+        "random": [
+            "the zxcvbnm",
+            "a qwertyuiop",
+            "some asdfghjkl",
+            "the yuiopasdfgh",
+            "a qwertzxcvbn", 
+            "every poiuytrewq",
+            "the lkjhgfdsa",
+            "a nmzxcvbnmasd",
+            "the uiopqwerty",
+            "some hgfdsazxcvbn",
+            "the tyuiopasdfg",
+            "a rewqzxcvbn"
+        ]
+    },
+    "objects": {
+        "normal": [
+            "a book",
+            "all the paintings",
+            "a nice football",
+            "some pencil",
+            "the guitar",
+            "the camera",
+            "a blanket",
+            "every vase",
+            "Bob's piano"
+        ], 
+        "nonce": [
+            "a flibbertigibbet",
+            "a dkedaddlewump",
+            "some snollygoster",
+            "the blatherskite",
+            "every whippersnapper",
+            "the fiddlefaddle",
+            "the flummoxadoodle",
+            "a snickerdoodle",
+            "all blabberwocks",
+            "a whifflewhump",
+            "the skedaddlewoozle"
+        ],
+        "random": [
+            "every fghjklpoiuyt",
+            "the dsaqwertyui",
+            "some cvbnmzxcvbn",
+            "the bnmqwertyui",
+            "every asdzxcvbn",
+            "the zxcasdfghjkl",
+            "some vbnpoiuytrewq",
+            "the jklmnbvcxz",
+            "a xyzabcdefgh",
+            "some abcdefghijk",
+            "the ghijklmnopq",
+            "a opqrstuvwxyz",
+            "every uvwxyzabcdefg"
+        ]
+    }
 }
