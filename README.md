@@ -39,10 +39,10 @@ To generate the data, run:
 
 ### Run the experiments
 The `run_experiments.py` script takes several arguments: 
-- `-mode`: which model to run (either `ada`, `babbage`, `curie`, or `davinci`. Default is `davinci`)
-- `-path_to_data`: path to data generated with the `generate_data.py` script.
+- `-mode`: which model to run (either `all`, `1`, `2`, or `3`. Default is `3`). Here, 1, 2, and 3 correspond to Davinci-001, Davinci-002, and Davinci-003 respectively.
+- `-path_to_data_dir`: path to data generated with the `generate_data.py` script.
 
-To run the experiments with `davinci`, run:
+To run the experiments with Davinci-003, run:
 
 
-    python run_experiments.py -path_to_data PATH_TO_DATA
+    python run_experiments.py -path_to_data_dir PATH_TO_DATA_DIR
